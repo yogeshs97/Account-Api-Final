@@ -1,0 +1,33 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: accountmicroservice-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: Accountmicroservice
+  template:
+    metadata:
+      labels:
+        app: Accountmicroservice
+    spec:
+      containers:
+      - name: accountmicroservicerepos
+        image: anujretailbankingcr.azurecr.io/accountmicroservicerepos:latest
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: dsconfigsn2
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: accountmicroservice
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: Accountmicroservice
